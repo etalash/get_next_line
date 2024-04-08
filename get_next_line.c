@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:29:29 by stalash           #+#    #+#             */
-/*   Updated: 2024/04/02 18:06:22 by stalash          ###   ########.fr       */
+/*   Updated: 2024/04/08 17:20:31 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	clean_up(t_list **list)
 	last_node = ft_lstlast(*list);
 	i = 0;
 	k = 0;
-	while (last_node->content[i] && last_node->content[i] != '\n')
+	while (last_node->content[i] != '\n' && last_node->content[i] != '\0')
 		++i;
-	while (last_node->content[i] && last_node->content[++i])
+	while (last_node->content[i] != '\0' && last_node->content[++i] != '\0')
 		buf[k++] = last_node->content[i];
 	buf[k] = '\0';
 	clean_node->content = buf;
@@ -72,7 +72,7 @@ char	*make_line(t_list *list)
 		return (NULL);
 	len = ft_strlen(list);
 	new_list = malloc(len + 1);
-	if (new_list == NULL)
+	if (NULL == new_list)
 		return (NULL);
 	ft_copy_str(list, new_list);
 	return (new_list);
@@ -85,7 +85,7 @@ void	ft_create(t_list **list, int fd)
 
 	while (!new_line(*list))
 	{
-		str = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+		str = malloc(BUFFER_SIZE + 1);
 		if (str == NULL)
 			return ;
 		char_read = read(fd, str, BUFFER_SIZE);
@@ -99,7 +99,6 @@ void	ft_create(t_list **list, int fd)
 	}
 }
 
-
 char	*get_next_line(int fd)
 {
 	static t_list	*list;
@@ -109,9 +108,17 @@ char	*get_next_line(int fd)
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &str, 0) < 0)
 		return (NULL);
 	ft_create(&list, fd);
-	if (list == NULL)
-		return (NULL);
+	// if (list == NULL)
+	// 	return (NULL);
 	str = make_line(list);
 	clean_up(&list);
 	return (str);
 }
+// #include <stdio.h>
+
+// int main (void)
+// {
+// 	printf("%s", get_next_line);
+
+// 	return (0);
+// }

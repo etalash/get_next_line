@@ -6,48 +6,47 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 14:37:48 by stalash           #+#    #+#             */
-/*   Updated: 2024/04/02 18:06:44 by stalash          ###   ########.fr       */
+/*   Updated: 2024/04/08 16:26:58 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int	new_line(t_list *list)
-{
-	if (list == NULL)
-		return (0);
-	while (list)
-	{
-		if (*(list->content) != '\0' && BUFFER_SIZE > 0)
-		{
-			if (*(list->content) == '\n')
-				return (1);
-		}
-		list = list->next;
-	}
-	return (0);
-}
-
 // int	new_line(t_list *list)
 // {
-// 	int	i;
-
 // 	if (list == NULL)
 // 		return (0);
-// 	while (list != NULL)
+// 	while (list)
 // 	{
-// 		i = 0;
-// 		if (list->content[i] != '\0' && BUFFER_SIZE > i)
+// 		if (*(list->content) != '\0' && BUFFER_SIZE > 0)
 // 		{
-// 			if (list->content[i] == '\n')
+// 			if (*(list->content) == '\n')
 // 				return (1);
-// 			i++;
 // 		}
 // 		list = list->next;
 // 	}
 // 	return (0);
 // }
 
+int	new_line(t_list *list)
+{
+	int	i;
+
+	if (list == NULL)
+		return (0);
+	while (list != NULL)
+	{
+		i = 0;
+		if (list->content[i] != '\0' && BUFFER_SIZE > i)
+		{
+			if (list->content[i] == '\n')
+				return (1);
+			i++;
+		}
+		list = list->next;
+	}
+	return (0);
+}
 
 t_list	*ft_lstlast(t_list *lst)
 {

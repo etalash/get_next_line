@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:22:43 by stalash           #+#    #+#             */
-/*   Updated: 2024/04/02 18:05:06 by stalash          ###   ########.fr       */
+/*   Updated: 2024/04/08 16:48:16 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # include <unistd.h>
 # include <stdlib.h>
+# include <fcntl.h>
+# include <stdio.h>
 
 typedef struct s_list
 {
@@ -27,16 +29,16 @@ typedef struct s_list
 # endif
 
 char	*get_next_line(int fd);
-void	ft_create(t_list **list, int fd);
-char	*make_line(t_list *list);
-void	ft_copy_str(t_list *list, char *new_str);
-void	clean_up(t_list **list);
+// void	ft_create(t_list **list, int fd);
+// char	*make_line(t_list *list);
+// void	ft_copy_str(t_list *list, char *new_str);
+// void	clean_up(t_list **list);
 int		new_line(t_list *list);
-t_list	*find_last_node(t_list *list);
-// t_list	*ft_lstlast(t_list *lst);
+// t_list	*find_last_node(t_list *list);
+t_list	*ft_lstlast(t_list *lst);
 int		ft_strlen(t_list *list);
 void	ft_join_str(t_list **list, char *ptr);
-void	clear_line(t_list **list);
+// void	clear_line(t_list **list);
 void	dealloc(t_list **list, t_list *clean_node, char *buf);
 // void	clear_line(t_list **list, t_list *for_clean, char *str);
 
