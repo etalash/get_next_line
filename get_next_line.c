@@ -6,7 +6,7 @@
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/02 12:29:29 by stalash           #+#    #+#             */
-/*   Updated: 2024/04/08 17:20:31 by stalash          ###   ########.fr       */
+/*   Updated: 2024/04/11 13:54:05 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,15 +101,14 @@ void	ft_create(t_list **list, int fd)
 
 char	*get_next_line(int fd)
 {
-	static t_list	*list;
+	static t_list	*list = NULL;
 	char			*str;
 
-	list = NULL;
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, &str, 0) < 0)
 		return (NULL);
 	ft_create(&list, fd);
-	// if (list == NULL)
-	// 	return (NULL);
+	if (list == NULL)
+		return (NULL);
 	str = make_line(list);
 	clean_up(&list);
 	return (str);
