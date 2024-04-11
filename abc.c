@@ -185,29 +185,14 @@ void	create_list(t_list **list, int fd)
 		if (buf == NULL)
 			return ;
 		char_read = read(fd, buf, BUFFER_SIZE);
-		if (char_read == 0)
+		if (!char_read)
 		{
 			free(buf);
 			return ;
 		}
 		buf[char_read] = '\0';
 		add_to_the_end(list, buf);
-	}
-	free(buf);
-}
 
-void	clean_up(t_list **list)
-{
-	t_list	*temp;
-
-	if (*list == NULL)
-		return ;
-	while (*list != NULL)
-	{
-		temp = (*list)->next;
-		free((*list)->content);
-		free(*list);
-		*list = temp;
 	}
 }
 
@@ -215,18 +200,25 @@ char	*get_next_line(int fd)
 {
 	static t_list	*list = NULL;
 	char			*str;
+	t_list			*temp;
 
 	if (read(fd, &str, 0) < 0 || fd < 0 || BUFFER_SIZE <= 0)
+	{
+		if (list == NULL)
+			return (NULL);
+		while (list != NULL)
+		{
+			temp = (list)->next;
+			free((list)->content);
+			free(list);
+			list = temp;
+		}
 		return (NULL);
+	}
 	create_list(&list, fd);
 	if (list == NULL)
 		return (NULL);
 	str = make_line(list);
-	if (str == NULL)
-	{
-		clean_up(&list);
-		return (NULL);
-	}
 	clean_up_list(&list);
 	return (str);
 }
