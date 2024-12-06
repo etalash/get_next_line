@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: stalash <stalash@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/02 14:37:48 by stalash           #+#    #+#             */
-/*   Updated: 2024/04/17 18:22:03 by stalash          ###   ########.fr       */
+/*   Created: 2024/04/21 21:16:14 by stalash           #+#    #+#             */
+/*   Updated: 2024/04/24 17:57:56 by stalash          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	new_line(t_list *list)
 {
 	int	i;
 
-	if (list == NULL)
+	if (NULL == list)
 		return (0);
-	while (list != NULL)
+	while (list)
 	{
 		i = 0;
-		while (list->content[i] && BUFFER_SIZE > i)
+		while (list->content[i] && i < BUFFER_SIZE)
 		{
 			if (list->content[i] == '\n')
 				return (1);
@@ -34,9 +34,9 @@ int	new_line(t_list *list)
 
 t_list	*ft_lstlast(t_list *list)
 {
-	if (list == NULL)
+	if (NULL == list)
 		return (NULL);
-	while (list->next != NULL)
+	while (list->next)
 		list = list->next;
 	return (list);
 }
@@ -44,27 +44,27 @@ t_list	*ft_lstlast(t_list *list)
 void	copy_list(t_list *list, char *str)
 {
 	int	i;
-	int	j;
+	int	k;
 
-	if (list == NULL)
+	if (NULL == list)
 		return ;
-	j = 0;
-	while (list != NULL)
+	k = 0;
+	while (list)
 	{
 		i = 0;
-		while (list->content[i] != '\0')
+		while (list->content[i])
 		{
 			if (list->content[i] == '\n')
 			{
-				str[j++] = '\n';
-				str[j] = '\0';
+				str[k++] = '\n';
+				str[k] = '\0';
 				return ;
 			}
-			str[j++] = list->content[i++];
+			str[k++] = list->content[i++];
 		}
 		list = list->next;
 	}
-	str[j] = '\0';
+	str[k] = '\0';
 }
 
 int	len_of_list(t_list *list)
@@ -72,13 +72,13 @@ int	len_of_list(t_list *list)
 	int	i;
 	int	len;
 
-	if (list == NULL)
+	if (NULL == list)
 		return (0);
 	len = 0;
-	while (list != NULL)
+	while (list)
 	{
 		i = 0;
-		while (list->content[i] != '\0')
+		while (list->content[i])
 		{
 			if (list->content[i] == '\n')
 			{
@@ -93,27 +93,26 @@ int	len_of_list(t_list *list)
 	return (len);
 }
 
-void	dealloc(t_list **list, t_list *clean_node, char *str)
+void	dealloc(t_list **list, t_list *clean_node, char *buf)
 {
-	t_list	*last_node;
-	t_list	*temp;
+	t_list	*tmp;
 
-	if (list == NULL || *list == NULL)
+	if (NULL == *list)
 		return ;
-	last_node = *list;
-	while (last_node != NULL)
+	while (*list)
 	{
-		temp = last_node;
-		last_node = last_node->next;
-		free(temp->content);
-		free(temp);
+		tmp = (*list)->next;
+		free((*list)->content);
+		free(*list);
+		*list = tmp;
 	}
 	*list = NULL;
-	if (clean_node->content[0] != 0)
+	if (clean_node->content[0])
 		*list = clean_node;
 	else
 	{
-		free(str);
+		free(buf);
 		free(clean_node);
+		*list = NULL;
 	}
 }
